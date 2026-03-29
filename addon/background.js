@@ -191,6 +191,9 @@ async function dismissRecentTab(tab_index) {
 // Add a mobile header to outgoing requests
 browser.webRequest.onBeforeSendHeaders.addListener(function (info) {
   let hostname = (new URL(info.url)).hostname;
+  if (info.originUrl && info.originUrl.startsWith("http")) {
+    return {};
+  }
   if (desktopHostnames[hostname]) {
     return {};
   }
